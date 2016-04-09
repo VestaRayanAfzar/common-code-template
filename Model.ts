@@ -22,7 +22,7 @@ export abstract class Model {
     }
 
     public validate(...fieldNames:Array<string>):IValidationErrors {
-        var result = Validator.validate(this.getValues(), this._schema.validateSchema);
+        var result = Validator.validate(this.getValues(null, ...fieldNames), this._schema.validateSchema);
         if (!result) return result;
         if (fieldNames.length) {
             var subset:IValidationErrors = {}, hasError = false;

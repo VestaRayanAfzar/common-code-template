@@ -55,10 +55,10 @@ export class Validator {
             return regex.exec(value);
         },
         min: function (value, min) {
-            return value && value >= min;
+            return value !== undefined && value >= min;
         },
         max: function (value, max) {
-            return value && value <= max;
+            return value !== undefined && value <= max;
         },
         assert: function (value: any, cb: IAssertCallback, allValues: Array<any>) {
             return cb(value, allValues);
@@ -110,7 +110,7 @@ export class Validator {
             return (bool === true || bool === false);
         },
         timestamp: function (timestamp: number) {
-            return timestamp > 0;
+            return timestamp !== undefined;
         },
         relation: function (value) {
             return true;
@@ -129,6 +129,9 @@ export class Validator {
             return true;
         },
         string: function (value) {
+            return true;
+        },
+        text: function (value) {
             return true;
         },
         password: function (value) {
