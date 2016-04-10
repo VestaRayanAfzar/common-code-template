@@ -54,7 +54,7 @@ export abstract class Model {
         collection = collection || this;
         for (var i = fieldsNames.length; i--;) {
             fieldName = fieldsNames[i];
-            if (collection[fieldName].getValues) {
+            if (collection[fieldName] && collection[fieldName].getValues) {
                 values[fieldName] = collection[fieldName].getValues();
             } else {
                 values[fieldName] = collection[fieldName];
