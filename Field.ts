@@ -4,10 +4,17 @@ import {Model} from "./Model";
 export interface IRelationship {
     type:number;
     model:Model;
-    field:string;
     isWeek:boolean;
 }
 
+/**
+ *
+ * Handles the relationship between models. The driver decides how to implement the physical database
+ *
+ * type     One to One, One to Many, Many to May
+ * type     The related model
+ * isWeek   For noSQL databases, if the related model is a new collection, treat it as a nested document
+ */
 export class Relationship implements IRelationship {
     public static Type = {
         One2One: 1,
@@ -16,7 +23,6 @@ export class Relationship implements IRelationship {
     };
     public type:number;
     public model:Model;
-    public field:string;
     public isWeek:boolean = false;
 
     constructor(relationType:number) {
@@ -25,11 +31,6 @@ export class Relationship implements IRelationship {
 
     public relatedModel(model:Model):Relationship {
         this.model = model;
-        return this;
-    }
-
-    public relatedModelField(field:string):Relationship {
-        this.field = field;
         return this;
     }
 }
@@ -165,31 +166,31 @@ export class Field {
         return this;
     }
 
-    private setRelation(type:number, model:Model, field:string):Field {
+    private setRelation(type:number, model:Model):Field {
         this._properties.relation = new Relationship(type);
-        this._properties.relation.relatedModel(model).relatedModelField(field);
+        this._properties.relation.relatedModel(model);
         return this;
     }
 
     /**
      *  for one to one relationship
      */
-    public isPartOf(model:Model, field:string):Field {
-        return this.setRelation(Relationship.Type.One2One, model, field);
+    public isPartOf(model:Model):Field {
+        return this.setRelation(Relationship.Type.One2One, model);
     }
 
     /**
      *  for one to many relationship
      */
-    public isOneOf(model:Model, field:string):Field {
-        return this.setRelation(Relationship.Type.One2Many, model, field);
+    public isOneOf(model:Model):Field {
+        return this.setRelation(Relationship.Type.One2Many, model);
     }
 
     /**
      *  for many to many relationship
      */
-    public areManyOf(model:Model, field:string):Field {
-        return this.setRelation(Relationship.Type.Many2Many, model, field);
+    public areManyOf(model:Model):Field {
+        return this.setRelation(Relationship.Type.Many2Many, model);
     }
 }
 
