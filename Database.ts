@@ -73,5 +73,5 @@ export abstract class Database {
 
     public abstract deleteAll(model:string, condition:Condition):Promise<IDeleteResult>;
 
-    public abstract init(schema:Schema);
+    public abstract init(schemaList:Array<Schema>);
 }
