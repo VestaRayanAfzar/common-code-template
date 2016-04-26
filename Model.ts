@@ -22,7 +22,7 @@ export abstract class Model {
     }
 
     public validate(...fieldNames:Array<string>):IValidationErrors {
-        var result = Validator.validate(this.getValues(null, ...fieldNames), this._schema.validateSchema);
+        var result = Validator.validate(this.getValues(...fieldNames), this._schema.validateSchema);
         if (!result) return result;
         if (fieldNames.length) {
             var subset:IValidationErrors = {}, hasError = false;
@@ -47,17 +47,16 @@ export abstract class Model {
         }
     }
 
-    public getValues<T>(collection:any = null, ...fields:Array<string>):T {
+    public getValues<T>(...fields:Array<string>):T {
         var values:T = <T>{},
             fieldsNames = fields.length ? fields : this._schema.getFieldsNames(),
             fieldName;
-        collection = collection || this;
         for (var i = fieldsNames.length; i--;) {
             fieldName = fieldsNames[i];
-            if (collection[fieldName] && collection[fieldName].getValues) {
-                values[fieldName] = collection[fieldName].getValues();
+            if (this[fieldName] && this[fieldName].getValues) {
+                values[fieldName] = this[fieldName].getValues();
             } else {
-                values[fieldName] = collection[fieldName];
+                values[fieldName] = this[fieldName];
             }
         }
         return values;
@@ -96,7 +95,7 @@ export abstract class Model {
         return Model._database.findById<T>(this['constructor']['schema'].name, id);
     }
 
-    public static findByModelValues<T>(modelValues:IModelValues, limit:number):Promise<IQueryResult<T>> {
+    public static findByModelValues<T>(modelValues:T, limit:number):Promise<IQueryResult<T>> {
         return Model._database.findByModelValues<T>(this['constructor']['schema'].name, modelValues, limit);
     }
 
@@ -104,7 +103,7 @@ export abstract class Model {
         return Model._database.findByQuery<T>(query);
     }
 
-    public static updateAll<T>(newValues:IModelValues, condition:Condition):Promise<IUpsertResult<T>> {
+    public static updateAll<T>(newValues:T, condition:Condition):Promise<IUpsertResult<T>> {
         return Model._database.updateAll<T>(this['constructor']['schema'].name, newValues, condition);
     }
 

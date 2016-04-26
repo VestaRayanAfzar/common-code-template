@@ -1,25 +1,24 @@
 import {Err} from "./Err";
+import {IQueryOption} from "./Database";
 
 export interface IQueryResult<T> {
-    total: number;
-    limit: number;
-    pageNumber: number;
-    items: Array<T>;
-    error: Err;
+    total:number;
+    limit:number;
+    page:number;
+    items:Array<T>;
+    error:Err;
 }
 
 export interface IUpsertResult<T> {
-    items: Array<T>;
-    error: Err;
+    items:Array<T>;
+    error:Err;
 }
 
 export interface IDeleteResult {
-    items: Array<number|string>;
-    error: Err;
+    items:Array<number|string>;
+    error:Err;
 }
 
-export interface IQueryRequest<T> {
-    query?: T;
-    limit?: number;
-    pageNumber?: number;
+export interface IQueryRequest<T> extends IQueryOption {
+    query?:T;
 }

@@ -114,12 +114,17 @@ export class Condition {
     }
 }
 
+/**
+ * Vesta Query Language
+ *
+ */
 export class Vql implements IQueryOption {
     // IQueryOption
-    public fetchLimit:number = 0;
-    public fetchFrom:number = 0;
-    public sort:Array<IOrderBy> = [];
+    public limit:number = 0;
+    public offset:number = 0;
+    public page:number = 1;
     public fields:Array<string> = [];
+    public orderBy:Array<IOrderBy> = [];
     public relations:Array<string> = [];
     // Vql
     public model:string;
@@ -146,24 +151,29 @@ export class Vql implements IQueryOption {
         return this;
     }
 
-    public limit(limit:number = 1):Vql {
-        this.fetchLimit = limit;
+    public limitTo(limit:number = 1):Vql {
+        this.limit = limit;
         return this;
     }
 
-    public offset(offset:number):Vql {
-        this.fetchFrom = offset;
+    public fromOffset(offset:number):Vql {
+        this.offset = offset;
         return this;
     }
 
-    public orderBy(field:string, ascending:boolean = true):Vql {
+    public fromPage(page:number):Vql {
+        this.page = page;
+        return this;
+    }
+
+    public sortBy(field:string, ascending:boolean = true):Vql {
         for (var i = this.orderBy.length; i--;) {
             if (this.orderBy[i].field == field) {
                 this.orderBy[i] = {field: field, ascending: ascending};
                 return this;
             }
         }
-        this.sort.push({field: field, ascending: ascending});
+        this.orderBy.push({field: field, ascending: ascending});
         return this;
     }
 
