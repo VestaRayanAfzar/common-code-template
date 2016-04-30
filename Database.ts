@@ -1,7 +1,6 @@
 import {Err} from "./Err";
 import {Vql, Condition} from "./Vql";
 import {Schema} from "./Schema";
-import {IModelValues} from "./Model";
 import {IDeleteResult, IUpsertResult, IQueryResult} from "./ICRUDResult";
 
 /**
@@ -31,17 +30,19 @@ export interface IOrderBy {
 }
 
 /**
- * fetchLimit   number of records that should be fetched
- * fetchFrom    offset of starting record index (LIMIT fetchFrom, fetchLimit)
+ * limit        number of records that should be fetched
+ * offset       offset of starting record index (LIMIT fetchFrom, fetchLimit)
+ * page         offset = (page - 1) * limit
  * fields       fieldNames that are suppose to be fetched
  * sort         sort results by fieldName and type of sorting (ORDER BY fieldName ASC | DESC)
  * relations    fieldNames (of type Relationship) that their related models should be fetched
  */
 export interface IQueryOption {
-    fetchLimit?:number;
-    fetchFrom?:number;
+    limit?:number;
+    offset?:number;
+    page?:number;
     fields?:Array<string>;
-    sort?:Array<IOrderBy>;
+    orderBy?:Array<IOrderBy>;
     relations?:Array<string>;
 }
 
@@ -59,7 +60,7 @@ export abstract class Database {
 
     public abstract findById<T>(model:string, id:number|string, option?:IQueryOption):Promise<IQueryResult<T>>;
 
-    public abstract findByModelValues<T>(model:string, modelValues:IModelValues, option?:IQueryOption):Promise<IQueryResult<T>>;
+    public abstract findByModelValues<T>(model:string, modelValues:T, option?:IQueryOption):Promise<IQueryResult<T>>;
 
     public abstract findByQuery<T>(query:Vql):Promise<IQueryResult<T>>;
 
@@ -67,11 +68,11 @@ export abstract class Database {
 
     public abstract updateOne<T>(model:string, value:T):Promise<IUpsertResult<T>>;
 
-    public abstract updateAll<T>(model:string, newValues:IModelValues, condition:Condition):Promise<IUpsertResult<T>>;
+    public abstract updateAll<T>(model:string, newValues:T, condition:Condition):Promise<IUpsertResult<T>>;
 
     public abstract deleteOne(model:string, id:number|string):Promise<IDeleteResult>;
 
     public abstract deleteAll(model:string, condition:Condition):Promise<IDeleteResult>;
 
-    public abstract init(schema:Schema);
+    public abstract init(schemaList:Array<Schema>);
 }
