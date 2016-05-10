@@ -13,6 +13,11 @@ export interface IModelValues {
     [fieldName:string]:any;
 }
 
+export interface IModel{
+    new (): Model;
+    schema:Schema;
+}
+
 export abstract class Model {
     private static _database:Database;
     private _schema:Schema;
