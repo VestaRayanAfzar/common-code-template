@@ -3,7 +3,7 @@ import {Model} from "./Model";
 
 export interface IRelationship {
     type:number;
-    model:Model;
+    model:IModel;
     isWeek:boolean;
 }
 
@@ -22,14 +22,14 @@ export class Relationship implements IRelationship {
         Many2Many: 3
     };
     public type:number;
-    public model:Model;
+    public model:IModel;
     public isWeek:boolean = false;
 
     constructor(relationType:number) {
         this.type = relationType;
     }
 
-    public relatedModel(model:Model):Relationship {
+    public relatedModel(model:IModel):Relationship {
         this.model = model;
         return this;
     }
@@ -166,7 +166,7 @@ export class Field {
         return this;
     }
 
-    private setRelation(type:number, model:Model):Field {
+    private setRelation(type:number, model:IModel):Field {
         this._properties.relation = new Relationship(type);
         this._properties.relation.relatedModel(model);
         return this;
@@ -175,21 +175,21 @@ export class Field {
     /**
      *  for one to one relationship
      */
-    public isPartOf(model:Model):Field {
+    public isPartOf(model:IModel):Field {
         return this.setRelation(Relationship.Type.One2One, model);
     }
 
     /**
      *  for one to many relationship
      */
-    public isOneOf(model:Model):Field {
+    public isOneOf(model:IModel):Field {
         return this.setRelation(Relationship.Type.One2Many, model);
     }
 
     /**
      *  for many to many relationship
      */
-    public areManyOf(model:Model):Field {
+    public areManyOf(model:IModel):Field {
         return this.setRelation(Relationship.Type.Many2Many, model);
     }
 }
