@@ -2,11 +2,11 @@ import {Err} from "./Err";
 import {IQueryOption} from "./Database";
 
 export interface IQueryResult<T> {
-    total:number;
-    limit:number;
-    page:number;
+    total?:number;
+    limit?:number;
+    page?:number;
     items:Array<T>;
-    error:Err;
+    error?:Err;
 }
 
 export interface IUpsertResult<T> {
