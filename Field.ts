@@ -1,5 +1,5 @@
 import {IAssertCallback} from "./Validator";
-import {Model} from "./Model";
+import {IModel} from "./Model";
 
 export interface IRelationship {
     type:number;

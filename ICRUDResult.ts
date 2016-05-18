@@ -5,7 +5,7 @@ export interface IQueryResult<T> {
     total?:number;
     limit?:number;
     page?:number;
-    items:Array<T>;
+    items?:Array<T>;
     error?:Err;
 }
 
