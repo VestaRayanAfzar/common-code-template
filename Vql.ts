@@ -176,6 +176,7 @@ export class Vql implements IQueryOption {
         this.orderBy.push({field: field, ascending: ascending});
         return this;
     }
+
     public fetchRecordFor(field:string|{name:string,fields:Array<string>}):Vql {
         if (this.relations.indexOf(field) < 0) {
             this.relations.push(field);

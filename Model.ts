@@ -104,8 +104,8 @@ export abstract class Model {
         return Model._database.findById<T>(this['constructor']['schema'].name, id, option);
     }
 
-    public static findByModelValues<T>(modelValues:T, option?:IQueryOption):Promise<IQueryResult<T>> {
-        return Model._database.findByModelValues<T>(this['constructor']['schema'].name, modelValues, option);
+    public static findByModelValues<T>(modelValues:T, limit:number):Promise<IQueryResult<T>> {
+        return Model._database.findByModelValues<T>(this['constructor']['schema'].name, modelValues, limit);
     }
 
     public static findByQuery<T>(query:Vql):Promise<IQueryResult<T>> {
