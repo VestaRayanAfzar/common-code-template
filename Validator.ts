@@ -157,7 +157,7 @@ export class Validator {
         for (var fieldName in validationPatterns) {
             if (validationPatterns.hasOwnProperty(fieldName)) {
                 var isRequired = <boolean>validationPatterns[fieldName].hasOwnProperty('required');
-                var hasValue = values.hasOwnProperty(fieldName);
+                var hasValue = values.hasOwnProperty(fieldName) && values[fieldName] !== undefined; 
                 if (isRequired || hasValue) {
                     var result = Validator.validateField(values[fieldName], validationPatterns[fieldName], values, isRequired);
                     if (result) {

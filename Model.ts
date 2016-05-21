@@ -1,6 +1,6 @@
 import {Field} from "./Field";
 import {Schema} from "./Schema";
-import {Database} from "./Database";
+import {Database, IQueryOption} from "./Database";
 import {Vql, Condition} from "./Vql";
 import {Validator, IValidationErrors} from "./Validator";
 import {IDeleteResult, IUpsertResult, IQueryResult} from "./ICRUDResult";
@@ -13,6 +13,11 @@ export interface IModelValues {
     [fieldName:string]:any;
 }
 
+export interface IModel {
+    new ():Model;
+    schema:Schema;
+}
+
 export abstract class Model {
     private static _database:Database;
     private _schema:Schema;
@@ -21,8 +26,12 @@ export abstract class Model {
         this._schema = schema;
     }
 
+    public static setDatabese(database:Database) {
+        Model._database = database;
+    }
+
     public validate(...fieldNames:Array<string>):IValidationErrors {
-        var result = Validator.validate(this.getValues(null, ...fieldNames), this._schema.validateSchema);
+        var result = Validator.validate(this.getValues(...fieldNames), this._schema.validateSchema);
         if (!result) return result;
         if (fieldNames.length) {
             var subset:IValidationErrors = {}, hasError = false;
@@ -43,21 +52,20 @@ export abstract class Model {
             fieldName;
         for (var i = fieldsNames.length; i--;) {
             fieldName = fieldsNames[i];
-            this[fieldName] = values[fieldName];
+            this[fieldName] = values[fieldName] !== undefined ? values[fieldName] : this[fieldName];
         }
     }
 
-    public getValues<T>(collection:any = null, ...fields:Array<string>):T {
+    public getValues<T>(...fields:Array<string>):T {
         var values:T = <T>{},
             fieldsNames = fields.length ? fields : this._schema.getFieldsNames(),
             fieldName;
-        collection = collection || this;
         for (var i = fieldsNames.length; i--;) {
             fieldName = fieldsNames[i];
-            if (collection[fieldName] && collection[fieldName].getValues) {
-                values[fieldName] = collection[fieldName].getValues();
+            if (this[fieldName] && this[fieldName].getValues) {
+                values[fieldName] = this[fieldName].getValues();
             } else {
-                values[fieldName] = collection[fieldName];
+                values[fieldName] = this[fieldName];
             }
         }
         return values;
@@ -92,19 +100,19 @@ export abstract class Model {
         return Model._database;
     }
 
-    public static findById<T>(id:number|string):Promise<IQueryResult<T>> {
-        return Model._database.findById<T>(this['constructor']['schema'].name, id);
+    public static findById<T>(id:number|string, option?:IQueryOption):Promise<IQueryResult<T>> {
+        return Model._database.findById<T>(this['constructor']['schema'].name, id, option);
     }
 
-    public static findByModelValues<T>(modelValues:IModelValues, limit:number):Promise<IQueryResult<T>> {
-        return Model._database.findByModelValues<T>(this['constructor']['schema'].name, modelValues, limit);
+    public static findByModelValues<T>(modelValues:T, option?:IQueryOption):Promise<IQueryResult<T>> {
+        return Model._database.findByModelValues<T>(this['constructor']['schema'].name, modelValues, option);
     }
 
     public static findByQuery<T>(query:Vql):Promise<IQueryResult<T>> {
         return Model._database.findByQuery<T>(query);
     }
 
-    public static updateAll<T>(newValues:IModelValues, condition:Condition):Promise<IUpsertResult<T>> {
+    public static updateAll<T>(newValues:T, condition:Condition):Promise<IUpsertResult<T>> {
         return Model._database.updateAll<T>(this['constructor']['schema'].name, newValues, condition);
     }
 

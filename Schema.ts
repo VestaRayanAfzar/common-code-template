@@ -10,7 +10,6 @@ export interface IDBModelSet {
 export class Schema {
     //private modelName:string;
     private _validateSchema;
-    private _dbSchema;
     private fields: IModelFields = {};
     private fieldsName: Array<string> = [];
 
@@ -34,13 +33,6 @@ export class Schema {
             this._validateSchema = getValidatorSchema(this.fields);
         }
         return this._validateSchema;
-    }
-
-    get dbSchema() {
-        if (!this._dbSchema) {
-            this._dbSchema = getDbSchema(this.fields);
-        }
-        return this._dbSchema;
     }
 
     addField(fieldName: string): Field {
