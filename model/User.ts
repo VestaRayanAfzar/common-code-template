@@ -1,7 +1,7 @@
-import {Model, IModelValues} from '../Model';
-import {FieldType} from '../Field';
-import {Schema} from '../Schema';
 
+import {Schema} from "vesta-schema/Schema";
+import {FieldType} from "vesta-schema/Field";
+import {Model, IModelValues} from "vesta-schema/Model";
 export enum UserGender {Male = 1, Female}
 
 var schema = new Schema('User');
