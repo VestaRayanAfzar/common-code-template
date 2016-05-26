@@ -1,4 +1,3 @@
-
 import {Schema} from "vesta-schema/Schema";
 import {FieldType} from "vesta-schema/Field";
 import {Model, IModelValues} from "vesta-schema/Model";
@@ -15,14 +14,14 @@ schema.addField('gender').type(FieldType.Enum).enum(UserGender.Male, UserGender.
 schema.addField('image').type(FieldType.File).maxSize(6144).fileType('image/png', 'image/jpeg', 'image/pjpeg');
 
 export interface IUser {
-    id: number,
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    birthDate: number;
-    gender: number;
-    image: File|string;
+    id:number,
+    firstName:string;
+    lastName:string;
+    email:string;
+    password:string;
+    birthDate:number;
+    gender:number;
+    image:File|string;
 }
 
 export class User extends Model implements IUser {
