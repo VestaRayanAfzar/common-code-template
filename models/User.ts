@@ -7,7 +7,7 @@ import {RoleGroup, IRoleGroup} from "./RoleGroup";
 export enum UserGender {Male = 1, Female}
 
 export interface IUser {
-    id?:number,
+    id?:number;
     username?:string;
     firstName?:string;
     lastName?:string;
@@ -31,7 +31,7 @@ export class User extends Model implements IUser {
     public birthDate:number;
     public gender:UserGender;
     public image:File|string;
-    public roles:Array<number|IRoleGroup|RoleGroup>;
+    public roleGroups:Array<number|IRoleGroup|RoleGroup> = [];
 
     constructor(values?:IModelValues) {
         super(User.schema, User.database);

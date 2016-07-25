@@ -20,7 +20,7 @@ export class RoleGroup extends Model implements IRoleGroup {
     public name:string;
     public status:boolean = true;
     public desc:string;
-    public roles:Array<number|IRole|Role>;
+    public roles:Array<number|IRole|Role> = [];
 
     constructor(values?:any) {
         super(RoleGroup.schema, RoleGroup.database);

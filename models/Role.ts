@@ -18,7 +18,7 @@ export class Role extends Model implements IRole {
     public id:number|string;
     public name:string;
     public desc:string;
-    public permissions:Array<number|IPermission|Permission>;
+    public permissions:Array<number|IPermission|Permission> = [];
     public status:boolean = true;
 
     constructor(values?:any) {
