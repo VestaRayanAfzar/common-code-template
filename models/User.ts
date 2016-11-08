@@ -7,33 +7,33 @@ import {RoleGroup, IRoleGroup} from "./RoleGroup";
 export enum UserGender {Male = 1, Female}
 
 export interface IUser {
-    id?:number;
-    username?:string;
-    firstName?:string;
-    lastName?:string;
-    email?:string;
-    password?:string;
-    birthDate?:number;
-    gender?:UserGender;
-    image?:File|string;
-    roleGroups?:Array<number|IRoleGroup|RoleGroup>;
+    id?: number;
+    username?: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    birthDate?: number;
+    gender?: UserGender;
+    image?: File|string;
+    roleGroups?: Array<number|IRoleGroup|RoleGroup>;
 }
 
 export class User extends Model implements IUser {
-    public static schema:Schema = new Schema('User');
-    public static database:Database;
-    public id:number;
-    public username:string;
-    public firstName:string;
-    public lastName:string;
-    public email:string;
-    public password:string;
-    public birthDate:number;
-    public gender:UserGender;
-    public image:File|string;
-    public roleGroups:Array<number|IRoleGroup|RoleGroup> = [];
+    public static schema: Schema = new Schema('User');
+    public static database: Database;
+    public id: number;
+    public username: string;
+    public firstName: string;
+    public lastName: string;
+    public email: string;
+    public password: string;
+    public birthDate: number;
+    public gender: UserGender;
+    public image: File|string;
+    public roleGroups: Array<number|IRoleGroup|RoleGroup> = [];
 
-    constructor(values?:IModelValues) {
+    constructor(values?: IModelValues) {
         super(User.schema, User.database);
         this.setValues(values);
     }

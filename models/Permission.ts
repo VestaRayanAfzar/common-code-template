@@ -3,23 +3,30 @@ import {Schema} from "vesta-schema/Schema";
 import {FieldType} from "vesta-schema/Field";
 import {Database} from "vesta-schema/Database";
 
-export interface IPermission {
-    id?:number|string;
-    resource?:string;
-    action?:string;
-    status?:boolean;
+export interface IPermissionAction {
+    Read: string;
+    Add: string;
+    Edit: string;
+    Delete: string;
 }
 
+export interface IPermission {
+    id?: number|string;
+    resource?: string;
+    action?: string;
+    status?: boolean;
+}
 
 export class Permission extends Model implements IPermission {
-    public static schema:Schema = new Schema('Permission');
-    public static database:Database;
-    public id:number|string;
-    public resource:string;
-    public action:string;
-    public status:boolean = true;
+    public static schema: Schema = new Schema('Permission');
+    public static database: Database;
+    public static Action: IPermissionAction = {Read: 'read', Add: 'add', Edit: 'edit', Delete: 'delete'};
+    public id: number|string;
+    public resource: string;
+    public action: string;
+    public status: boolean = true;
 
-    constructor(values?:any) {
+    constructor(values?: any) {
         super(Permission.schema, Permission.database);
         this.setValues(values);
     }
