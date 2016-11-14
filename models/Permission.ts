@@ -20,7 +20,7 @@ export interface IPermission {
 export class Permission extends Model implements IPermission {
     public static schema: Schema = new Schema('Permission');
     public static database: Database;
-    public static Action: IPermissionAction = {Read: 'read', Add: 'add', Edit: 'edit', Delete: 'delete'};
+    public static Action: IPermissionAction = {Read: 'read', Add: 'add', Edit: 'edit', Delete: 'del'};
     public id: number|string;
     public resource: string;
     public action: string;
