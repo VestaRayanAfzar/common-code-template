@@ -1,12 +1,5 @@
 .idea
 tsd-debug.*
 npm-debug.*
-/bower_components
 /build
 /node_modules
-/platforms
-/plugins
-/resources/tsd
-/src/img
-/src/app/config/setting.var.ts
-/www

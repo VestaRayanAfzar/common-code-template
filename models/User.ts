@@ -41,7 +41,7 @@ export class User extends Model implements IUser {
 }
 
 User.schema.addField('id').type(FieldType.String).primary();
-User.schema.addField('username').type(FieldType.String).unique().required();
+User.schema.addField('username').type(FieldType.String).unique().required().minLength(4).maxLength(16);
 User.schema.addField('firstName').type(FieldType.String).minLength(2);
 User.schema.addField('lastName').type(FieldType.String).minLength(2);
 User.schema.addField('email').type(FieldType.EMail).unique();
