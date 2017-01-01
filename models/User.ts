@@ -45,7 +45,7 @@ User.schema.addField('username').type(FieldType.String).unique().required().minL
 User.schema.addField('firstName').type(FieldType.String).minLength(2);
 User.schema.addField('lastName').type(FieldType.String).minLength(2);
 User.schema.addField('email').type(FieldType.EMail).unique();
-User.schema.addField('password').type(FieldType.Password).required().minLength(4);
+User.schema.addField('password').type(FieldType.Password).required().minLength(4).assert((password: string) => password.length < 16);
 User.schema.addField('birthDate').type(FieldType.Timestamp);
 User.schema.addField('gender').type(FieldType.Enum).enum(UserGender.Male, UserGender.Female).default(UserGender.Male);
 User.schema.addField('image').type(FieldType.File).maxSize(6144).fileType('image/png', 'image/jpeg', 'image/pjpeg');
